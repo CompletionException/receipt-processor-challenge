@@ -10,7 +10,7 @@ import (
 )
 
 // Define the expected date format
-const dateFormat = "2006-01-02" // Change if your format is different
+const dateFormat = "2006-01-02"
 
 // CalculatePoints calculates the points based on a receipt
 func CalculatePoints(receipt model.Receipt) int {
