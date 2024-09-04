@@ -32,6 +32,13 @@ func processReceiptHandler(w http.ResponseWriter, r *http.Request, storage *stor
 	// Generate a new UUID for the receipt
 	receipt.ID = uuid.New()
 
+	// Validate request parameters
+	if (!business.Validate(receipt)){
+		//Invalid request
+		JSONError(w, "The receipt is invalid", http.StatusBadRequest)
+		return
+	}
+
 	// Calculate points based on the receipt
 	receipt.Points = business.CalculatePoints(receipt)
 
