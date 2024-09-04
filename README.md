@@ -1,3 +1,71 @@
+# Solution Intro
+
+Created go api. Follows api.yml expectations. All input fields are expected to be of type string. Type conversion is done in business logic as it should be. 
+
+## Tech Debt
+ - API testing
+ - More business logic testing
+ - Docker
+ - Automated CI/CD staging
+ - Internal Mocking endpoint
+ - Lambda deployment
+ - Load balancing 
+ - DB
+ - User Auth
+ - Improved Logging
+ - Error handling(Fail fast? bubble up?)
+
+## Running Solution
+ - clone repo
+ - cd receipt-processor-challenge
+ - go mod tidy
+ - go run cmd/receipt-processor-challenge/main.go
+ 
+ Server is started http://localhost:8080
+
+ ## API Endpoint Routes
+ **/receipts/process**
+ 
+ Method: POST
+ 
+ Example: 
+ curl --location 'http://localhost:8080/receipts/process' \
+--header 'Content-Type: application/javascript' \
+--data '{
+    "retailer": "Target",
+        "purchaseDate": "2022-01-01",
+            "purchaseTime": "13:01",
+                "items": [
+                    {
+                        "shortDescription": "Mountain Dew 12PK",
+                        "price": "6.49"
+                    }, {
+                        "shortDescription": "Emils Cheese Pizza",
+                        "price": "12.25"
+                    }, {
+                        "shortDescription": "Knorr Creamy Chicken",
+                        "price": "1.26"
+                    }, {
+                        "shortDescription": "Doritos Nacho Cheese",
+                        "price": "3.35"
+                    }, {
+                        "shortDescription": "   Klarbrunn 12-PK 12 FL OZ  ",
+                        "price": "12.00"
+                    }
+                ],
+                    "total": "35.35"
+}'
+
+**/receipts/{transactionID}/points**
+
+Method: GET
+
+Example:
+curl --location 'http://localhost:8080/receipts/6a2974b2-a155-48eb-be4e-36085f08948b/points'
+
+
+
+
 # Receipt Processor
 
 Build a webservice that fulfils the documented API. The API is described below. A formal definition is provided 
