@@ -13,6 +13,9 @@ var RegexMap = map[string]*regexp.Regexp{
 }
 
 func Validate(receipt model.Receipt) bool {
+	if receipt.Date == "" || receipt.Time == "" || len(receipt.Items) < 1 {
+		return false
+	}
 	if !RegexMap["retailer"].MatchString(receipt.Retailer) ||
 		!RegexMap["total"].MatchString(receipt.Total) {
 		return false
