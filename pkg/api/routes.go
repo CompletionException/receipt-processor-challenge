@@ -16,7 +16,7 @@ func SetupRouter(s *storage.InMemoryStorage) *mux.Router {
 
 // InitRoutes initializes the API routes
 func InitRoutes(r *mux.Router, s *storage.InMemoryStorage) {
-	r.HandleFunc("/receipts/process", func(w http.ResponseWriter, r *http.Request) {
+	r.HandleFunc("/receipts/process/{userId}", func(w http.ResponseWriter, r *http.Request) {
 		processReceiptHandler(w, r, s)
 	}).Methods("POST")
     r.HandleFunc("/receipts/{id}/points", func(w http.ResponseWriter, r *http.Request) {

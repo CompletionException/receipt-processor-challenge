@@ -13,7 +13,7 @@ import (
 const dateFormat = "2006-01-02"
 
 // CalculatePoints calculates the points based on a receipt
-func CalculatePoints(receipt model.Receipt) int {
+func CalculatePoints(receipt model.Receipt, userReceiptCount int) int {
 	points := 0
 
 	// Rule 1: One point for every alphanumeric character in the retailer name
@@ -70,6 +70,20 @@ func CalculatePoints(receipt model.Receipt) int {
 	if parsedTime.After(parseTime("14:00")) && parsedTime.Before(parseTime("16:00")) {
 		points += 10
 	}
+
+	// Rule Addition user receipt count - Zero indexed
+	// First receipt 1000
+	// second 500
+	// Third 250
+	// Other none
+	if userReceiptCount == 0 {
+		points += 1000
+	} else if userReceiptCount == 1 {
+		points += 500
+	} else if userReceiptCount == 2 {
+		points += 250
+	}
+
 	return points
 }
 

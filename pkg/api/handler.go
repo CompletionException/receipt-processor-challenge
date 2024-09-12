@@ -12,8 +12,22 @@ import (
 	"github.com/gorilla/mux"
 )
 
+// Easy way to keep track of User submissions.
+// todo: make this work with shared goroutine memory space. i.e. mutex locking
+var userMap = make(map[string]int)
+
 // processReceiptHandler processes a new receipt and handle business logic.  Known ERROR always 400 per documentation
 func processReceiptHandler(w http.ResponseWriter, r *http.Request, storage *storage.InMemoryStorage) {
+	vars := mux.Vars(r)
+	userIdStr := vars["userId"]
+
+	// Parse userID from the URL
+	if _, exists := userMap[userIdStr]; exists {
+		userMap[userIdStr]++
+	} else {
+		userMap[userIdStr] = 0
+	}
+
 	if r.Method != http.MethodPost {
 		//Invalid request method
 		JSONError(w, "The receipt is invalid", http.StatusBadRequest)
@@ -40,7 +54,7 @@ func processReceiptHandler(w http.ResponseWriter, r *http.Request, storage *stor
 	}
 
 	// Calculate points based on the receipt
-	receipt.Points = business.CalculatePoints(receipt)
+	receipt.Points = business.CalculatePoints(receipt, userMap[userIdStr])
 
 	// Save receipt to in-memory storage
 	if err := storage.SaveReceipt(receipt); err != nil {

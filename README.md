@@ -2,7 +2,10 @@
 
 Created go api. Follows api.yml expectations. All input fields are expected to be of type string. Type conversion is done in business logic as it should be. 
 
+Keeps track of user ids passed for receipt point calculations. They are not safe to use currently as the map is accessed during while memory is volatile.
+
 ## Tech Debt
+ - User mapping done while async.
  - API testing
  - More business logic testing
  - Docker
@@ -24,12 +27,12 @@ Created go api. Follows api.yml expectations. All input fields are expected to b
  Server is started http://localhost:8080
 
  ## API Endpoint Routes
- **/receipts/process**
+ **/receipts/process/{userID}**
  
  Method: POST
  
  Example: 
- curl --location 'http://localhost:8080/receipts/process' \
+ curl --location 'http://localhost:8080/receipts/process/aaa' \
 --header 'Content-Type: application/javascript' \
 --data '{
     "retailer": "Target",
